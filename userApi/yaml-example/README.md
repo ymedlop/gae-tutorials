@@ -15,3 +15,11 @@ Flask==0.10
 To install the libraries from a requirements file, use the -r flag in addition to the -t lib flag:
 
 pip install --upgrade -r requirements.txt -t lib
+
+##### Local Demo
+
+![alt text](https://storage.googleapis.com/ymedlop-sandbox.appspot.com/examples/gae/userApi/yaml/devserver.png "devserver")
+
+![alt text](https://storage.googleapis.com/ymedlop-sandbox.appspot.com/examples/gae/userApi/yaml/login.png "login")
+
+![alt text](https://storage.googleapis.com/ymedlop-sandbox.appspot.com/examples/gae/userApi/yaml/hello.png "hello")
