@@ -1,0 +1,71 @@
+# Enforcing sign in with app.yaml
+
+# https://cloud.google.com/appengine/docs/python/config/appconfig#Python_app_yaml_Optional_elements
+# The application identifier. This is the identifier you selected when you created the application in the Google Cloud Platform Console.
+application: noname-test-gae
+
+# A version specifier for the application code. App Engine retains a copy of your application for each version used.
+version: test
+
+# https://cloud.google.com/appengine/docs/python/config/appconfig#Python_app_yaml_Required_elements
+# The name of the App Engine runtime environment used by this application. To specify Python, use python27. Other runtimes are available
+runtime: python27
+
+# The version of the API in the given runtime environment used by this application. When Google releases a new version of a runtime environment's API,
+# your application will continue to use the one for which it was written. To upgrade your application to the new API, you change this value and upload the upgraded code.
+api_version: 1
+
+# Configures your application to use concurrent requests
+# Note: The threadsafe directive is required for Python 2.7 applications. threadsafe: true requires that all script handlers be WSGI ones.
+# That is, each script must be specified in a script: directive a using Python module path, with package names separated by dots.
+# The last component of a script: directive using a Python module path is the name of a global variable in the module: that variable must be a WSGI app,
+# and is usually called app by convention.
+threadsafe: true
+
+# https://cloud.google.com/appengine/docs/python/config/appconfig#Python_app_yaml_Static_cache_expiration
+# The length of time a static file served by a static file handler ought to be cached by web proxies and browsers.
+default_expiration: "1d"
+
+# A list of URL patterns and descriptions of how they should be handled. App Engine can handle URLs by executing application code,
+# or by serving static files uploaded with the code, such as images, CSS or JavaScript.
+handlers:
+
+# https://cloud.google.com/appengine/docs/python/config/appconfig#Python_app_yaml_Script_handlers
+# A script handler executes a Python script to handle the request that matches the URL pattern.
+# The mapping defines a URL pattern to match, and the script to be executed.
+
+# The URL pattern, as a regular expression
+- url: /.*
+# Specifies the path to the script from the application root directory.
+  script: main.app
+
+  #  If the user has signed in, the handler proceeds normally. Otherwise, the action given in auth_fail_action is taken.
+  login: required
+
+  # Does not require that the user is signed in (Default value).
+  # login: optional
+
+  # As with required, performs auth_fail_action if the user is not signed in.
+  # In addition, if the user is not an administrator for the application, they are given an error message (regardless of the auth_fail_action setting).
+  # If the user is an administrator, the handler proceeds.
+  # login: admin
+
+  # https://cloud.google.com/appengine/docs/python/config/appconfig#Python_app_yaml_Secure_URLs
+  # Requests for a URL that match this handler that do not use HTTPS are automatically redirected to the HTTPS URL with the same path.
+  # Query parameters are preserved for the redirect.
+  secure: always
+
+  # Both HTTP and HTTPS requests with URLs that match the handler succeed without redirects.
+  # The application can examine the request to determine which protocol was used, and respond accordingly.
+  # This is the default when secure is not provided for a handler.
+  # secure: optional
+
+  # Requests for a URL that match this handler that use HTTPS are automatically redirected to the HTTP equivalent URL.
+  # secure: never
+
+# https://cloud.google.com/appengine/docs/python/config/appconfig#Python_app_yaml_Skipping_files
+# The skip_files element specifies which files in the application directory are not to be uploaded to App Engine.
+skip_files:
+- ^/*\.pyc
+- ^/*\.md
+- ^/*\.txt
